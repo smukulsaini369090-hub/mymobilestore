@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Phone Store - Best Deals on Smartphones</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --bg: #f4f4f5;
+      --text: #111827;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --radius: 16px;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .logo-text {
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+    .logo-text span {
+      color: var(--primary);
+    }
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #4b5563;
+    }
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(37, 99, 235, 0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: #111827;
+    }
+    .btn-outline:hover {
+      background: #e5e7eb;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem 1rem;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+      gap: 2rem;
+      align-items: center;
+      margin-bottom: 2.5rem;
+    }
+    .hero-text h1 {
+      font-size: clamp(2rem, 4vw, 2.7rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+    }
+    .hero-text p {
+      color: #4b5563;
+      margin-bottom: 1.25rem;
+      font-size: 0.98rem;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .badge {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .hero-note {
+      font-size: 0.82rem;
+      color: #6b7280;
+    }
+    .hero-card {
+      background: radial-gradient(circle at top left, #dbeafe, #ffffff);
+      border-radius: 24px;
+      padding: 1.2rem;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+    .hero-card h2 {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat {
+      font-size: 0.85rem;
+    }
+    .hero-stat strong {
+      font-size: 1rem;
+      display: block;
+    }
+    .about {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem 1.3rem;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .about h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.4rem;
+    }
+    .about p {
+      font-size: 0.92rem;
+      color: #4b5563;
+      margin-bottom: 0.3rem;
+    }
+    .about-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.5rem;
+      margin-top: 0.4rem;
+      font-size: 0.86rem;
+      color: #374151;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 2rem 0 1rem;
+      gap: 1rem;
+    }
+    .section-header h2 {
+      font-size: 1.4rem;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--border);
+      flex: 1;
+      max-width: 260px;
+    }
+    .search-box input {
+      border: none;
+      outline: none;
+      font-size: 0.9rem;
+      width: 100%;
+      background: transparent;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+    }
+    .product-image {
+      width: 100%;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e5e7eb, #f3f4f6);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-bottom: 0.4rem;
+      overflow: hidden;
+    }
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-title {
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+    .product-desc {
+      font-size: 0.8rem;
+      color: #6b7280;
+      min-height: 2.2em;
+    }
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.2rem;
+    }
+    .product-price {
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+    .product-price span {
+      font-size: 0.78rem;
+      color: #6b7280;
+      font-weight: 400;
+    }
+    .stock {
+      font-size: 0.75rem;
+      color: #16a34a;
+    }
+    .product-footer {
+      margin-top: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .qty-badge {
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+    .cart-btn {
+      position: relative;
+    }
+    .cart-count {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ef4444;
+      color: white;
+      font-size: 0.7rem;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-panel-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      display: none;
+      justify-content: flex-end;
+      z-index: 40;
+    }
+    .cart-panel {
+      background: #f9fafb;
+      width: 100%;
+      max-width: 360px;
+      height: 100%;
+      padding: 1rem;
+      box-shadow: -10px 0 30px rgba(15, 23, 42, 0.35);
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+      margin-bottom: 0.75rem;
+    }
+    .cart-item {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      gap: 0.6rem;
+      padding: 0.4rem 0;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 0.85rem;
+    }
+    .cart-item-title {
+      font-weight: 600;
+      margin-bottom: 0.1rem;
+    }
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.78rem;
+      color: #4b5563;
+    }
+    .qty-btn {
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: white;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .cart-summary {
+      border-top: 1px dashed #d1d5db;
+      padding-top: 0.6rem;
+      font-size: 0.9rem;
+    }
+    .cart-summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+    .cart-summary-row.total {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .checkout-note {
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 0.3rem;
+      margin-bottom: 0.4rem;
+    }
+    .contact {
+      margin-top: 3rem;
+      background: white;
+      border-radius: 24px;
+      padding: 1.3rem;
+      border: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .contact h2 {
+      margin-bottom: 0.4rem;
+    }
+    .contact p {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin-bottom: 0.5rem;
+    }
+    .contact-info {
+      font-size: 0.86rem;
+      color: #4b5563;
+      display: grid;
+      gap: 0.25rem;
+    }
+    .contact-info span {
+      font-weight: 600;
+      color: #111827;
+    }
+    .contact-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .whatsapp-btn {
+      background: #22c55e;
+      color: white;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 10px 25px rgba(22, 163, 74, 0.35);
+      transition: 0.15s;
+    }
+    .whatsapp-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(22, 163, 74, 0.45);
+    }
+    footer {
+      max-width: 1100px;
+      margin: 1.5rem auto 1rem auto;
+      padding: 0 1rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .contact {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="logo-text">MY PHONE <span>STORE</span></div>
+      <div class="nav-links">
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+        <button class="btn btn-outline cart-btn" id="openCartBtn">
+          🛒 Cart
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <div class="hero-badges">
+          <div class="badge">📱 Trusted Mobile Shop · Narela, Delhi</div>
+        </div>
+        <h1>Latest 5G Smartphones with Best Deals.</h1>
+        <p>
+          My Phone Store brings you powerful 5G phones, genuine brand warranty,
+          best pricing and fast local delivery. Order directly on WhatsApp –
+          simple, fast and tension-free.
+        </p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary">View Phones</a>
+          <a href="#contact" class="btn btn-outline">Contact Store</a>
+        </div>
+        <p class="hero-note">
+          💬 Order WhatsApp se hoga – payment & delivery details WhatsApp par confirm honge.
+        </p>
+      </div>
+
+      <aside class="hero-card">
+        <h2>How WhatsApp Ordering Works</h2>
+        <ol style="font-size:0.85rem; color:#4b5563; padding-left:1.0rem; margin-top:0.2rem;">
+          <li>Phone ko cart me add karo</li>
+          <li>“Checkout on WhatsApp” pe click karo</li>
+          <li>Auto-filled message send karo</li>
+          <li>Hum final price, payment & delivery confirm karenge</li>
+        </ol>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <strong>✔️ 100% Original</strong>
+            Bill & brand warranty
+          </div>
+          <div class="hero-stat">
+            <strong>🕒 Fast Service</strong>
+            Local delivery & quick support
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="about">
+      <h2>About My Phone Store</h2>
+      <p>
+        My Phone Store is your trusted mobile shop in <strong>Narela, Delhi</strong>.
+        We provide the latest 5G smartphones with genuine products, best offers
+        and complete support on WhatsApp.
+      </p>
+      <p>Smart choice for smart people – upgrade your phone without any hassle.</p>
+      <div class="about-list">
+        <div>• 100% Original Phones</div>
+        <div>• Cash & UPI Payment</div>
+        <div>• Local Delivery Available</div>
+        <div>• POCO, Redmi, Samsung, Vivo, Realme</div>
+        <div>• Friendly After-Sales Support</div>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="section-header">
+        <h2>Available Phones</h2>
+        <div class="search-box">
+          🔍
+          <input type="text" id="searchInput" placeholder="Search phones..." />
+        </div>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div>
+        <h2>Contact & Store Details</h2>
+        <p>Kisi bhi doubt, stock ya bulk order ke liye direct WhatsApp/Call karein.</p>
+        <div class="contact-info">
+          <div><span>Store Name:</span> My Phone Store</div>
+          <div><span>Location:</span> Narela, Delhi</div>
+          <div><span>Delivery:</span> Local delivery available</div>
+          <div><span>Payment:</span> Cash / UPI</div>
+          <div><span>Timings:</span> 9:00 AM – 9:00 PM</div>
+          <div><span>Phone / WhatsApp:</span> +91 92890 22473</div>
+        </div>
+      </div>
+      <div class="contact-actions">
+        <button class="whatsapp-btn" id="whatsappContactBtn">
+          💬 Chat on WhatsApp
+        </button>
+        <div style="font-size:0.8rem; color:#6b7280;">
+          Product details, availability, exchange & pricing ke liye message bhejein.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> My Phone Store. All rights reserved.
+  </footer>
+
+  <div class="cart-panel-backdrop" id="cartBackdrop">
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h3>🛒 Your Cart</h3>
+        <button class="btn btn-outline" id="closeCartBtn">Close</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-summary">
+        <div class="cart-summary-row">
+          <span>Items</span>
+          <span id="cartItemsCount">0</span>
+        </div>
+        <div class="cart-summary-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">₹0</span>
+        </div>
+        <div class="cart-summary-row total">
+          <span>Total (approx.)</span>
+          <span id="cartTotal">₹0</span>
+        </div>
+        <p class="checkout-note">
+          Final total (delivery/discount ke sath) hum WhatsApp par confirm karenge.
+        </p>
+        <button class="btn btn-primary" id="checkoutBtn" style="width:100%;">
+          ✅ Checkout on WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORE_WHATSAPP_NUMBER = "919289022473";
+
+    const products = [
+      {
+        id: 1,
+        name: "POCO X6 Pro 5G",
+        price: 29999,
+        unit: "unit",
+        description:
+          "Dimensity 8300-Ultra, 1.5K 120Hz AMOLED, 64MP OIS camera, 5000mAh + 67W charging, HyperOS.",
+        inStock: true,
+        image: "https://via.placeholder.com/400x300?text=POCO+X6+Pro",
+      },
+      {
+        id: 2,
+        name: "POCO F7 5G (Phantom Black, 12GB/512GB)",
+        price: 30999,
+        unit: "unit",
+        description:
+          "Powerful 5G performance phone with big storage and smooth experience.",
+        inStock: true,
+        image: "https://ibb.co/bjNmCkqT",
+      },
+      {
+        id: 3,
+        name: "Apple iPhone 16 (Pink, 128GB)",
+        price: 57999,
+        unit: "unit",
+        description:
+          "Latest generation iPhone with premium design, powerful chip and iOS experience.",
+        inStock: true,
+        image: "https://ibb.co/RGtxq88n",
+      },
+      {
+        id: 4,
+        name: "OnePlus Nord 5 5G (Dry Ice, 8GB/256GB)",
+        price: 32754,
+        unit: "unit",
+        description:
+          "Smooth OxygenOS, 5G ready, good camera and fast charging mid-range phone.",
+        inStock: true,
+        image: "https://ibb.co/vCkfD8jW",
+      },
+    ];
+
+    const productsGrid = document.getElementById("productsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const cartBackdrop = document.getElementById("cartBackdrop");
+    const openCartBtn = document.getElementById("openCartBtn");
+    const closeCartBtn = document.getElementById("closeCartBtn");
+    const cartItemsContainer = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const cartItemsCount = document.getElementById("cartItemsCount");
+    const cartSubtotal = document.getElementById("cartSubtotal");
+    const cartTotal = document.getElementById("cartTotal");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+    const whatsappContactBtn = document.getElementById("whatsappContactBtn");
+    const yearSpan = document.getElementById("year");
+    yearSpan.textContent = new Date().getFullYear();
+
+    let cart = [];
+
+    function renderProducts(list) {
+      productsGrid.innerHTML = "";
+      if (!list.length) {
+        productsGrid.innerHTML =
+          "<p style='font-size:0.9rem; color:#6b7280;'>No products found.</p>";
+        return;
+      }
+      list.forEach((p) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <div class="product-image">
+            ${p.image ? `<img src="${p.image}" alt="${p.name}" />` : "No image"}
+          </div>
+          <div class="product-title">${p.name}</div>
+          <div class="product-desc">${p.description || ""}</div>
+          <div class="product-meta">
+            <div class="product-price">₹${p.price}<span> / ${p.unit}</span></div>
+            <div class="stock">${p.inStock ? "In stock" : "Out of stock"}</div>
+          </div>
+          <div class="product-footer">
+            <button class="btn btn-primary" ${
+              !p.inStock ? "disabled" : ""
+            } data-id="${p.id}">
+              ${p.inStock ? "Add to Cart" : "Out of Stock"}
+            </button>
+            <div class="qty-badge" data-qty-id="${p.id}"></div>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+      const buttons = productsGrid.querySelectorAll("button[data-id]");
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = parseInt(btn.getAttribute("data-id"));
+          addToCart(id);
+        });
+      });
+      updateQtyBadges();
+    }
+
+    function addToCart(productId) {
+      const existing = cart.find((item) => item.id === productId);
+      if (existing) existing.qty += 1;
+      else cart.push({ id: productId, qty: 1 });
+      updateCartUI();
+    }
+    function removeFromCart(productId) {
+      cart = cart.filter((item) => item.id !== productId);
+      updateCartUI();
+    }
+    function changeQty(productId, delta) {
+      const item = cart.find((i) => i.id === productId);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) removeFromCart(productId);
+      else updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+      cartCount.textContent = totalItems;
+      cartItemsCount.textContent = t
