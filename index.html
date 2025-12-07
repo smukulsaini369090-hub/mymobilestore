@@ -733,4 +733,113 @@
 
     function updateCartUI() {
       const totalItems = cart.reduce((s, i) => s + i.qty, 0);
-      cartCount.textCont
+      cartCount.textContent = totalItems;
+      cartItemsCount.textContent = totalItems;
+      cartItemsContainer.innerHTML = "";
+      let subtotal = 0;
+      cart.forEach((item) => {
+        const product = products.find((p) => p.id === item.id);
+        if (!product) return;
+        const lineTotal = product.price * item.qty;
+        subtotal += lineTotal;
+        const row = document.createElement("div");
+        row.className = "cart-item";
+        row.innerHTML = `
+          <div style="font-size:0.9rem;">${product.name
+            .split(" ")
+            .slice(0, 2)
+            .join(" ")}</div>
+          <div>
+            <div class="cart-item-title">${product.name}</div>
+            <div class="cart-item-controls">
+              <button class="qty-btn" data-action="dec" data-id="${
+                product.id
+              }">-</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" data-action="inc" data-id="${
+                product.id
+              }">+</button>
+              <span>· ₹${product.price}/${product.unit}</span>
+            </div>
+          </div>
+          <div style="font-weight:600;">₹${lineTotal}</div>
+        `;
+        cartItemsContainer.appendChild(row);
+      });
+      cartSubtotal.textContent = "₹" + subtotal;
+      cartTotal.textContent = "₹" + subtotal;
+
+      const qtyButtons = cartItemsContainer.querySelectorAll(".qty-btn");
+      qtyButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = parseInt(btn.getAttribute("data-id"));
+          const action = btn.getAttribute("data-action");
+          changeQty(id, action === "inc" ? 1 : -1);
+        });
+      });
+      updateQtyBadges();
+    }
+
+    function updateQtyBadges() {
+      const badges = document.querySelectorAll("[data-qty-id]");
+      badges.forEach((badge) => {
+        const id = parseInt(badge.getAttribute("data-qty-id"));
+        const item = cart.find((i) => i.id === id);
+        badge.textContent = item ? `In cart: ${item.qty}` : "";
+      });
+    }
+
+    function openCart() {
+      cartBackdrop.style.display = "flex";
+    }
+    function closeCart() {
+      cartBackdrop.style.display = "none";
+    }
+
+    searchInput.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase();
+      const filtered = products.filter((p) =>
+        p.name.toLowerCase().includes(q)
+      );
+      renderProducts(filtered);
+    });
+    openCartBtn.addEventListener("click", openCart);
+    closeCartBtn.addEventListener("click", closeCart);
+    cartBackdrop.addEventListener("click", (e) => {
+      if (e.target === cartBackdrop) closeCart();
+    });
+
+    checkoutBtn.addEventListener("click", () => {
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+      let message = "Hello, I want to place an order:%0A%0A";
+      cart.forEach((item, index) => {
+        const product = products.find((p) => p.id === item.id);
+        if (!product) return;
+        message += `${index + 1}. ${product.name} - Qty: ${
+          item.qty
+        } (₹${product.price}/${product.unit})%0A`;
+      });
+      const subtotal = cart.reduce((sum, item) => {
+        const product = products.find((p) => p.id === item.id);
+        return sum + (product ? product.price * item.qty : 0);
+      }, 0);
+      message += `%0ASubtotal (approx.): ₹${subtotal}%0A`;
+      message += "%0APlease confirm final total, payment method and delivery details.";
+      const url = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${message}`;
+      window.open(url, "_blank");
+    });
+
+    whatsappContactBtn.addEventListener("click", () => {
+      const msg = encodeURIComponent(
+        "Hello, I visited your website (My Phone Store) and I have a query about your phones."
+      );
+      window.open(`https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    });
+
+    renderProducts(products);
+  </script>
+</body>
+</html>
